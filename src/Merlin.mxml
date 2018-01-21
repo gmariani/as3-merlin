@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication 
+	xmlns:merlin="cv.merlin.*"  
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+
+	width="450" height="220"
+	showStatusBar="false"
+	creationComplete="init(event)"
+	addedToStage="initTracker()" >
+	
+	<s:layout>
+		<s:VerticalLayout paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="10" />
+	</s:layout>
+	
+	<!--<fx:Style source="style/style.css" />-->
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		s|Window {
+			backgroundColor: #333333;
+		}
+	</fx:Style>
+	<fx:Script source="cv/merlin/Main.as" />
+	
+	<fx:Declarations>
+		<s:Fade id="fadeOut" duration="250" alphaFrom="1.0" alphaTo="0.0"/>
+    	<s:Fade id="fadeIn" duration="250" alphaFrom="0.0" alphaTo="1.0"/>
+	</fx:Declarations>
+
+    <mx:ControlBar width="100%" includeInLayout="true" horizontalAlign="right">
+		<mx:Button id="btnOpen" toolTip="Select Font Folder to Organize" click="onClickOpen()" label="Open Folder" labelPlacement="right" icon="@Embed(source='assets/icons/folderIcon.png')"/>
+		<mx:Image id="btnAbout" source="assets/icons/helpIcon.png" click="onClickAbout()" toolTip="About .merlin" autoLoad="true"/>
+	</mx:ControlBar>
+    
+	<mx:Text id="txtInfo" height="100%" textAlign="center" width="100%" selectable="false" >
+		<mx:htmlText><![CDATA[Organizes .TTF (TrueType), .OTF (OpenType) and .PFB/.PFM (Type1) fonts.<br>Select a folder to organize.]]></mx:htmlText>
+	</mx:Text>
+	
+	<s:VGroup width="100%" horizontalAlign="center">
+		<mx:ProgressBar 
+			label="Working..." 
+			labelPlacement="center" 
+			id="pbProgress" 
+			width="95%" 
+			visible="false"
+			hideEffect="{fadeOut}" 
+			showEffect="{fadeIn}" 
+			indeterminate="true" 
+			mode="manual" 
+			minimum="0" 
+			paddingLeft="0" 
+			paddingRight="0"/>
+		
+		<s:HGroup width="100%" horizontalAlign="center">
+			<mx:CheckBox id="cbMove" width="105" label="Move Files" click="cbHandler(event)"
+						enabled="true" selected="true"
+						toolTip="Organize fonts into folders based on the first letter of the font name"/>
+			<mx:CheckBox id="cbRename" width="105" label="Rename Files" click="cbHandler(event)"
+						selected="true" toolTip="Rename the font files with the correct font name"/>
+		</s:HGroup>
+		
+		<s:HGroup width="100%" horizontalAlign="center">
+			<mx:CheckBox id="cbDelete" width="130" label="Delete Duplicates" click="cbHandler(event)"
+						selected="true"
+						toolTip="If there is more than one of the same font, the spares will be deleted"/>
+			<mx:CheckBox id="cbFamily" width="130" label="Organize by Family" click="cbHandler(event)"
+						selected="true"
+						toolTip="Within each letter folder, a font family folder will be created as well."/>
+		</s:HGroup>
+		
+		<s:Button label="Start" id="btnStart" toolTip="Start Organizing" click="startHandler(event)" enabled="false" width="100"/>	
+	</s:VGroup>
+</s:WindowedApplication>
